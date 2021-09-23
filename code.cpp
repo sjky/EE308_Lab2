@@ -13,6 +13,7 @@ const string keyword[32] = {"auto", "break", "case", "char", "const", "continue"
 int main() {
     string s;
     int count_key = 0;
+    int count_switch = 0;
     vector<string> data;
     vector<int> count_case;
     ifstream file;
@@ -35,6 +36,37 @@ int main() {
         }
     }
     cout << count_key << endl;
+    /***Level 2 implement draft***/
+    //switch count
+    for (int i = 0; i < data.size(); ++i) {
+        int position = data[i].find("switch");
+        if (position != data[i].npos) {
+            count_switch++;
+        }
+    }
+    cout << count_switch << endl;
 
+    //case count
+    for (int i = 0; i < data.size(); ++i) {
+        int case_num = 0;
+        int position = data[i].find("switch");
+        if (position != data[i].npos) {
+            for (int j = i + 1; j < data.size(); ++j) {
+                int position2 = data[j].find("case");
+                if (position2 != data[j].npos) {
+                    case_num++;
+                }
+                position2 = data[j].find("switch");
+                if (position2 != data[j].npos) {
+                    count_case.push_back(case_num);
+                    i = j + 1;
+                    break;
+                }
+            }
+        }
+    }
+    for (int i = 0; i < count_case.size(); ++i) {
+        cout << count_case[i] << " ";
+    }
     return 0;
 }
