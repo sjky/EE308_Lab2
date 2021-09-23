@@ -56,7 +56,8 @@ int main() {
                 if (position2 != data[j].npos) {
                     case_num++;
                 }
-                position2 = data[j].find("switch");
+                //Use finding "default" as a switch termination condition instead of next "switch".
+                position2 = data[j].find("default");
                 if (position2 != data[j].npos) {
                     count_case.push_back(case_num);
                     i = j + 1;
