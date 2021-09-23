@@ -3,25 +3,28 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+
 using namespace std;
 
 const string keyword[32] = {"auto", "break", "case", "char", "const", "continue", "default", "do", "double", "else",
                             "enum", "extern", "float", "for", "goto", "if", "int", "long", "register", "return",
-                            "short", "signed", "sizeof", "static", "struct", "switch", "typedef", "union", "unsigned",
-                            "void", "volatile", "while"};
+                            "short", "signed",
+                            "sizeof", "static", "struct", "switch", "typedef", "union", "unsigned", "void", "volatile",
+                            "while"};
 
 int main() {
-    string s;
-    int count_key = 0;
-    int count_switch = 0;
-    int count_ifelse = 0;
+    int countkey = 0;
+    int countswi = 0;
+    int countifelse = 0;
     int count_elseif = 0;
+    string s;
     vector<string> data;
-    vector<int> count_case;
+    vector<int> countcase;
     ifstream file;
-    file.open(R"(D:\C++\software\lab2\testfile.cpp)");//First pass in the address directly
+    file.open(R"(D:\C++\software\lab2\testfile.cpp)");
     while (file >> s) {
         data.push_back(s);
+        cout << s << endl;
     }
     file.close();
 
@@ -32,58 +35,61 @@ int main() {
             if (position != data[i].npos) {
                 if (find(pos.begin(), pos.end(), position) == pos.end()) {
                     pos.push_back(position);
-                    count_key++;
+                    countkey++;
                 }
             }
         }
     }
-    cout << count_key << endl;
-    /***Level 2 implement draft***/
-    //switch count
+    cout << countkey << endl;
+
     for (int i = 0; i < data.size(); ++i) {
         int position = data[i].find("switch");
         if (position != data[i].npos) {
-            count_switch++;
+            countswi++;
         }
     }
-    cout << count_switch << endl;
+    cout << countswi << endl;
 
-    //case count
+
     for (int i = 0; i < data.size(); ++i) {
-        int case_num = 0;
+        int casenum = 0;
         int position = data[i].find("switch");
         if (position != data[i].npos) {
             for (int j = i + 1; j < data.size(); ++j) {
                 int position2 = data[j].find("case");
                 if (position2 != data[j].npos) {
-                    case_num++;
+                    casenum++;
                 }
-                //Use finding "default" as a switch termination condition instead of next "switch".
                 position2 = data[j].find("default");
                 if (position2 != data[j].npos) {
-                    count_case.push_back(case_num);
+                    countcase.push_back(casenum);
                     i = j + 1;
                     break;
                 }
             }
         }
     }
-    for (int i = 0; i < count_case.size(); ++i) {
-        cout << count_case[i] << " ";
+    for (int i = 0; i < countcase.size(); ++i) {
+        cout << countcase[i] << " ";
     }
-    //Level 3 implementation
+
+
     for (int i = 0; i < data.size(); ++i) {
-        if (data[i].find("else") != data[i].npos && data[i+1].find("if") == data[i+1].npos||data[i].find("else{")!=data[i].npos){
-            count_ifelse++;
+        if (data[i].find("else") != data[i].npos && data[i + 1].find("if") == data[i + 1].npos ||
+            data[i].find("else{") != data[i].npos || data[i].find("else;") != data[i].npos) {
+            countifelse++;
         }
     }
-    cout << endl << count_ifelse << endl;
+    cout << endl << countifelse << endl;
 
-    //level 4 implementation
+
     for (int i = 0; i < data.size(); ++i) {
-        if (data[i].find("if") != data[i].npos && data[i-1].find("else") == data[i-1].npos && data[i-1].find("else{") == data[i-1].npos){
-            for (int j = i+1; j < data.size(); ++j) {
-                if (data[j].find("else") != data[j].npos && data[j+1].find("if") != data[j+1].npos && data[j].find("else{")==data[j].npos){
+        if ((data[i].find("if") != data[i].npos && data[i - 1].find("else") == data[i - 1].npos) ||
+            (data[i].find("if") != data[i].npos &&
+             (data[i - 1].find("else{") != data[i - 1].npos || data[i - 1].find("else;") != data[i - 1].npos))) {
+            for (int j = i + 1; j < data.size(); ++j) {
+                if (data[j].find("else") != data[j].npos && data[j + 1].find("if") != data[j + 1].npos &&
+                    data[j].find("else{") == data[j].npos && data[j].find("else;") == data[j].npos) {
                     i = j;
                     count_elseif++;
                     break;
@@ -94,3 +100,8 @@ int main() {
     cout << count_elseif;
     return 0;
 }
+
+
+
+
+
