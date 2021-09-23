@@ -73,7 +73,7 @@ void Mode2(vector<string> data) {
 }
 
 //Mode3 will output the number of "if else" structures
-void Mode3(vector<string> data) {
+int Mode3(vector<string> data) {
     int count_if_else = 0;
     for (int i = 0; i < data.size(); ++i) {
         //The condition in if is used to find the single "else"(not else-if) in the sample
@@ -82,11 +82,11 @@ void Mode3(vector<string> data) {
             count_if_else++;
         }
     }
-    cout <<"The number of 'if_else' structure is: " << count_if_else << endl;
+    return count_if_else;
 }
 
 //Mode4 will output the number of "if, else if, else" structures.
-void Mode4(vector<string> data) {
+int Mode4(vector<string> data) {
     int count_if_elseif_if = 0;
     for (int i = 0; i < data.size(); ++i) {
         //This condition is used to find the single "if" in the sample
@@ -104,7 +104,7 @@ void Mode4(vector<string> data) {
             }
         }
     }
-    cout << "The number of 'if, else if, else' structures is: " << count_if_elseif_if << endl;
+    return count_if_elseif_if;
 }
 /*** After define functions we run the main code here ***/
 int main() {
@@ -134,10 +134,10 @@ int main() {
             Mode2(data);
             break;
         case 3:
-            Mode3(data);
+            cout << "The number of 'if_else' structure is: " << Mode3(data)-Mode4(data) << endl;
             break;
         case 4:
-            Mode4(data);
+            cout << "The number of 'if, else if, else' structures is: " << Mode4(data) << endl;
             break;
         default:
             break;
