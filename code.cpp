@@ -14,6 +14,7 @@ int main() {
     string s;
     int count_key = 0;
     int count_switch = 0;
+    int count_ifelse = 0;
     vector<string> data;
     vector<int> count_case;
     ifstream file;
@@ -69,5 +70,12 @@ int main() {
     for (int i = 0; i < count_case.size(); ++i) {
         cout << count_case[i] << " ";
     }
+    //Level 3 implementation
+    for (int i = 0; i < data.size(); ++i) {
+        if (data[i].find("else") != data[i].npos && data[i+1].find("if") == data[i+1].npos||data[i].find("else{")!=data[i].npos){
+            count_ifelse++;
+        }
+    }
+    cout << endl << count_ifelse << endl;
     return 0;
 }
